@@ -59,11 +59,35 @@
             }
         }
     </style>
+    <style>
+  #stock-time {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  #stock-time span {
+    font-size: 1rem;
+    color: #007bff;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+    </style>
 </head>
 <body>
     <h1>AUDITOR - Stock Management</h1>
 
     <h2>Current Stock</h2>
+    <h3 id="stock-time">Stock Time <span id="stock-date">loading...</span></h3>
     <table id="stockTable">
         <thead>
             <tr>
@@ -576,9 +600,26 @@
     <button onclick="generateDailyReport()">Generate Daily Report</button>
     <button onclick="generateWeeklyReport()">Generate Weekly Report</button>
     <button onclick="generateMonthlyReport()">Generate Monthly Report</button>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  function updateStockDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.toLocaleString('default', { month: 'long' });
+    const day = now.getDate();
+    const weekday = now.toLocaleString('default', { weekday: 'long' });
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const time = `${hours}:${minutes}:${seconds}`;
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    document.getElementById('stock-date').textContent = `${year}, ${month}, ${day}, ${weekday}, ${time}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateStockDate();
+    setInterval(updateStockDate, 1000); // Live update every second
+  });
+</script>
 
 <script>
 // Function to restock drinks
@@ -607,7 +648,7 @@ function restock(drink) {
         document.getElementById(`${drink}LastRestockQuantity`).innerText = restockQuantity;
         document.getElementById(`${drink}LastRestockDate`).innerText = new Date().toLocaleString();
 
-        alert(`${restockQuantity} ${drink.charAt(0).toUpperCase() + drink.slice(1)} restocked!`);
+        alert(`${restockQuantity} ${drink.charAt(0).toUpperCase() + drink.slicecked!`);
         restockInput.value = 0; // Reset input
     } else {
         alert('Please enter a valid quantity to restock.');
