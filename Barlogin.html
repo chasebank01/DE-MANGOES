@@ -121,7 +121,7 @@
 
   <!-- Login Form -->
   <div class="login-container">
-    <h2>Login to Demangoes Bar</h2>
+    <h2>Demangoes Chiefbarman Login</h2>
     <form id="login-form">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" placeholder="Enter your username" required>
@@ -165,7 +165,7 @@
           localStorage.setItem('loggedIn', 'true');
 
           // Redirect to another page after a delay
-          window.location.href = 'Bar_Dashboard.html';
+          window.location.href = 'Chiefbarman.html';
         } else {
           alert('Invalid username or password');
         }
@@ -177,7 +177,7 @@
 
     // Check if the user is already logged in
     if (localStorage.getItem('loggedIn') === 'true') {
-      window.location.href = '.html';
+      window.location.href = 'Chiefbarman.html';
     }
   </script>
 </body>
