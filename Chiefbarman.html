@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barman - Product Sales</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #343a40;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            table, th, td {
+                font-size: 14px;
+            }
+            button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>ChiefBarman - Product Sales</h1>
+
+    <h2>Product Stock and Prices</h2>
+    <table id="barmanStockTable">
+        <thead>
+            <tr>
+                <th>S/NO</th>
+                <th>Product</th>
+                <th>Price (NGN)</th>
+                <th>Stock Remaining</th>
+                <th>Total Sold</th>
+                <th>Last Restock Quantity</th>
+                <th>Last Restock Date/Time</th>
+                <th>Sell Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Goldberg</td>
+                <td id="goldbergPrice">₦900</td>
+                <td id="goldbergRemaining">6</td>
+                <td id="goldbergTotalSold">0</td>
+                <td id="goldbergLastRestockQuantity">0</td>
+                <td id="goldbergLastRestockDate">N/A</td>
+                <td><input type="number" id="goldbergSell" min="1" value="0"></td>
+                <td><button onclick="sell('goldberg')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Trophy</td>
+                <td id="trophyPrice">₦900</td>
+                <td id="trophyRemaining">19</td>
+                <td id="trophyTotalSold">0</td>
+                <td id="trophyLastRestockQuantity">0</td>
+                <td id="trophyLastRestockDate">N/A</td>
+                <td><input type="number" id="trophySell" min="1" value="0"></td>
+                <td><button onclick="sell('trophy')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Heineken</td>
+                <td id="heinekenPrice">₦1200</td>
+                <td id="heinekenRemaining">2</td>
+                <td id="heinekenTotalSold">0</td>
+                <td id="heinekenLastRestockQuantity">0</td>
+                <td id="heinekenLastRestockDate">N/A</td>
+                <td><input type="number" id="heinekenSell" min="1" value="0"></td>
+                <td><button onclick="sell('heineken')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Gulder</td>
+                <td id="gulderPrice">₦1100</td>
+                <td id="gulderRemaining">9</td>
+                <td id="gulderTotalSold">0</td>
+                <td id="gulderLastRestockQuantity">0</td>
+                <td id="gulderLastRestockDate">N/A</td>
+                <td><input type="number" id="gulderSell" min="1" value="0"></td>
+                <td><button onclick="sell('gulder')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Black Goldberg</td>
+                <td id="blackgoldbergPrice">₦800</td>
+                <td id="blackgoldbergRemaining">49</td>
+                <td id="blackgoldbergTotalSold">0</td>
+                <td id="blackgoldbergLastRestockQuantity">0</td>
+                <td id="blackgoldbergLastRestockDate">N/A</td>
+                <td><input type="number" id="blackgoldbergSell" min="1" value="0"></td>
+                <td><button onclick="sell('blackgoldberg')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Origin Beer</td>
+                <td id="originbeerPrice">₦1000</td>
+                <td id="originbeerRemaining">6</td>
+                <td id="originbeerTotalSold">0</td>
+                <td id="originbeerLastRestockQuantity">0</td>
+                <td id="originbeerLastRestockDate">N/A</td>
+                <td><input type="number" id="originbeerSell" min="1" value="0"></td>
+                <td><button onclick="sell('originbeer')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Desperado</td>
+                <td id="desperadoPrice">₦1000</td>
+                <td id="desperadoRemaining">11</td>
+                <td id="desperadoTotalSold">0</td>
+                <td id="desperadoLastRestockQuantity">0</td>
+                <td id="desperadoLastRestockDate">N/A</td>
+                <td><input type="number" id="desperadoSell" min="1" value="0"></td>
+                <td><button onclick="sell('desperado')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Bullet</td>
+                <td id="bulletPrice">₦1800</td>
+                <td id="bulletRemaining">40</td>
+                <td id="bulletTotalSold">0</td>
+                <td id="bulletLastRestockQuantity">0</td>
+                <td id="bulletLastRestockDate">N/A</td>
+                <td><input type="number" id="bulletSell" min="1" value="0"></td>
+                <td><button onclick="sell('bullet')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Big Legend</td>
+                <td id="biglegendPrice">₦1200</td>
+                <td id="biglegendRemaining">3</td>
+                <td id="biglegendTotalSold">0</td>
+                <td id="biglegendLastRestockQuantity">0</td>
+                <td id="biglegendLastRestockDate">N/A</td>
+                <td><input type="number" id="biglegendSell" min="1" value="0"></td>
+                <td><button onclick="sell('biglegend')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Small legend</td>
+                <td id="smalllegendPrice">₦900</td>
+                <td id="smalllegendRemaining">59</td>
+                <td id="smalllegendTotalSold">0</td>
+                <td id="smalllegendLastRestockQuantity">0</td>
+                <td id="smalllegendLastRestockDate">N/A</td>
+                <td><input type="number" id="smalllegendSell" min="1" value="0"></td>
+                <td><button onclick="sell('smalllegend')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Legend Twist</td>
+                <td id="legendtwistPrice">₦900</td>
+                <td id="legendtwistRemaining">9</td>
+                <td id="legendtwistTotalSold">0</td>
+                <td id="legendtwistLastRestockQuantity">0</td>
+                <td id="legendtwistLastRestockDate">N/A</td>
+                <td><input type="number" id="legendtwistSell" min="1" value="0"></td>
+                <td><button onclick="sell('legendtwist')">Sell</button></td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>Tiger</td>
+                <td id="tigerPrice">₦900</td>
+                <td id="tigerRemaining">19</td>
+                <td id="tigerTotalSold">0</td>
+                <td id="tigerLastRestockQuantity">0</td>
+                <td id="tigerLastRestockDate">N/A</td>
+                <td><input type="number" id="tigerSell" min="1" value="0"></td>
+                <td><button onclick="sell('tiger')">Sell</button></td>
+                    </tr>
+                <tr>
+           
+               
+                <td>13</td>
+                <td>G.stout</td>
+                <td id="gstoutPrice">₦1200</td>
+                <td id="gstoutRemaining">12</td>
+                <td id="gstoutTotalSold">0</td>
+                <td id="gstoutLastRestockQuantity">0</td>
+                <td id="gstoutLastRestockDate">N/A</td>
+                <td><input type="number" id="gstoutSell" min="1" value="0"></td>
+                <td><button onclick="sell('gstout')">Sell</button></td>
+                    </tr>
+                
+                <tr>
+                <td>14</td>
+                <td>G.smooth</td>
+                <td id="gsmoothPrice">₦1200</td>
+                <td id="gsmoothRemaining">17</td>
+                <td id="gsmoothTotalSold">0</td>
+                <td id="gsmoothLastRestockQuantity">0</td>
+                <td id="gsmoothLastRestockDate">N/A</td>
+                <td><input type="number" id="gsmoothSell" min="1" value="0"></td>
+                <td><button onclick="sell('gsmooth')">Sell</button></td>
+               </tr> 
+                      <tr>
+                <td>15</td>
+                <td>Castle lite</td>
+                <td id="castlelitePrice">₦1000</td>
+                <td id="castleliteRemaining">1</td>
+                <td id="castleliteTotalSold">0</td>
+                <td id="castleliteLastRestockQuantity">0</td>
+                <td id="castleliteLastRestockDate">N/A</td>
+                <td><input type="number" id="castleliteSell" min="1" value="0"></td>
+                <td><button onclick="sell('castlelite')">Sell</button></td>
+               
+               </tr> 
+               
+               
+                      <tr>
+                <td>16</td>
+                <td>Small starlite</td>
+                <td id="smallstarlitePrice">₦1650</td>
+                <td id="smallstarliteRemaining">11</td>
+                <td id="smallstarliteTotalSold">0</td>
+                <td id="smallstarliteLastRestockQuantity">0</td>
+                <td id="smallstarliteLastRestockDate">N/A</td>
+                <td><input type="number" id="smallstarliteSell" min="1" value="0"></td>
+                <td><button onclick="sell('smallstarlite')">Sell</button></td>
+               </tr> 
+               
+                          <tr>
+                <td>17</td>
+                <td>Maltina</td>
+                <td id="maltinaPrice">₦700</td>
+                <td id="maltinaRemaining">1</td>
+                <td id="maltinaTotalSold">0</td>
+                <td id="maltinaLastRestockQuantity">0</td>
+                <td id="maltinaLastRestockDate">N/A</td>
+                <td><input type="number" id="maltinaSell" min="1" value="0"></td>
+                <td><button onclick="sell('maltina')">Sell</button></td>
+               </tr> 
+              <tr>
+                <td>18</td>
+                <td>Predator</td>
+                <td id="predatorPrice">₦600</td>
+                <td id="predatorRemaining">12</td>
+                <td id="predatorTotalSold">0</td>
+                <td id="predatorLastRestockQuantity">0</td>
+                <td id="predatorLastRestockDate">N/A</td>
+                <td><input type="number" id="predatorSell" min="1" value="0"></td>
+                <td><button onclick="sell('predator')">Sell</button></td>
+               </tr>    
+               
+                  <tr>
+                <td>19</td>
+                <td>Water</td>
+                <td id="waterPrice">₦250</td>
+                <td id="waterRemaining">2</td>
+                <td id="waterTotalSold">0</td>
+                <td id="waterLastRestockQuantity">0</td>
+                <td id="waterLastRestockDate">N/A</td>
+                <td><input type="number" id="waterSell" min="1" value="0"></td>
+                <td><button onclick="sell('water')">Sell</button></td>
+               </tr> 
+                      <tr>
+                <td>20</td>
+                <td>Peak</td>
+                <td id="peakPrice">₦2000</td>
+                <td id="peakRemaining">1</td>
+                <td id="peakTotalSold">0</td>
+                <td id="peakLastRestockQuantity">0</td>
+                <td id="peakLastRestockDate">N/A</td>
+                <td><input type="number" id="peakSell" min="1" value="0"></td>
+                <td><button onclick="sell('peak')">Sell</button></td>
+               </tr> 
+               
+                  <tr>
+                <td>21</td>
+                <td>Coke</td>
+                <td id="cokePrice">₦500</td>
+                <td id="cokeRemaining">5</td>
+                <td id="cokeTotalSold">0</td>
+                <td id="cokeLastRestockQuantity">0</td>
+                <td id="cokeLastRestockDate">N/A</td>
+                <td><input type="number" id="cokeSell" min="1" value="0"></td>
+                <td><button onclick="sell('coke')">Sell</button></td>
+               </tr> 
+                      <tr>
+                <td>22</td>
+                <td>Star</td>
+                <td id="starPrice">₦950</td>
+                <td id="starRemaining">3</td>
+                <td id="starTotalSold">0</td>
+                <td id="starLastRestockQuantity">0</td>
+                <td id="starLastRestockDate">N/A</td>
+                <td><input type="number" id="starSell" min="1" value="0"></td>
+                <td><button onclick="sell('star')">Sell</button></td>
+               
+               </tr> 
+                      <tr>
+                <td>23</td>
+                <td>Life</td>
+                <td id="lifePrice">₦900</td>
+                <td id="lifeRemaining">0</td>
+                <td id="lifeTotalSold">0</td>
+                <td id="lifeLastRestockQuantity">0</td>
+                <td id="lifeLastRestockDate">N/A</td>
+                <td><input type="number" id="lifeSell" min="1" value="0"></td>
+                <td><button onclick="sell('life')">Sell</button></td>
+               </tr> 
+               
+                  <tr>
+                <td>24</td>
+                <td>Fearless</td>
+                <td id="fearlessPrice">₦600</td>
+                <td id="fearlessRemaining">0</td>
+                <td id="fearlessTotalSold">0</td>
+                <td id="fearlessLastRestockQuantity">0</td>
+                <td id="fearlessLastRestockDate">N/A</td>
+                <td><input type="number" id="fearlessSell" min="1" value="0"></td>
+                <td><button onclick="sell('fearless')">Sell</button></td>
+               </tr> 
+                      <tr>
+                <td>25</td>
+                <td>Star radler</td>
+                <td id="starradlerPrice">₦600</td>
+                <td id="starradlerRemaining">0</td>
+                <td id="starradlerTotalSold">0</td>
+                <td id="starradlerLastRestockQuantity">0</td>
+                <td id="starradlerLastRestockDate">N/A</td>
+                <td><input type="number" id="starradlerSell" min="1" value="0"></td>
+                <td><button onclick="sell('starradler')">Sell</button></td>
+               </tr> 
+            <tr>
+                <td>26</td>
+                <td>Hero</td>
+                <td id="heroPrice">₦900</td>
+                <td id="heroRemaining">0</td>
+                <td id="heroTotalSold">0</td>
+                <td id="heroLastRestockQuantity">0</td>
+                <td id="heroLastRestockDate">N/A</td>
+                <td><input type="number" id="heroSell" min="1" value="0"></td>
+                <td><button onclick="sell('hero')">Sell</button></td>
+               </tr>           
+                      <tr>
+                <td>27</td>
+                <td>Double black</td>
+                <td id="doubleblackPrice">₦1200</td>
+                <td id="doubleblackRemaining">0</td>
+                <td id="doubleblackTotalSold">0</td>
+                <td id="doubleblackLastRestockQuantity">0</td>
+                <td id="doubleblackLastRestockDate">N/A</td>
+                <td><input type="number" id="doubleblackSell" min="1" value="0"></td>
+                <td><button onclick="sell('doubleblack')">Sell</button></td>
+               </tr> 
+                      <tr>
+                <td>28</td>
+                <td>Origin bitters</td>
+                <td id="originbittersPrice">₦1200</td>
+                <td id="originbittersRemaining">0</td>
+                <td id="originbittersTotalSold">0</td>
+                <td id="originbittersLastRestockQuantity">0</td>
+                <td id="guinnessLastRestockDate">N/A</td>
+                <td><input type="number" id="originbittersSell" min="1" value="0"></td>
+                <td><button onclick="sell('originbitters')">Sell</button></td>
+               </tr> 
+               
+                      <tr>
+                <td>29</td>
+                <td>Smirnoff ice</td>
+                <td id="smirnofficePrice">₦1300</td>
+                <td id="smirnofficeRemaining">0</td>
+                <td id="smirnofficeTotalSold">0</td>
+                <td id="smirnofficeLastRestockQuantity">0</td>
+                <td id="smirnofficeLastRestockDate">N/A</td>
+                <td><input type="number" id="smirnofficeSell" min="1" value="0"></td>
+                <td><button onclick="sell('smirnoffice')">Sell</button></td>
+               </tr> 
+        </tbody>
+    </table>
+
+    <h2>Total Revenue from Sold Products: <span id="totalRevenue">₦0</span></h2>
+    <h2>Daily Revenue: <span id="dailyRevenue">₦0</span></h2>
+    <h2>Weekly Revenue: <span id="weeklyRevenue">₦0</span></h2>
+    <h2>Monthly Revenue: <span id="monthlyRevenue">₦0</span></h2>
+    <button onclick="generateReport()">Generate Daily Summary Report</button>
+    <button onclick="generateDetailedReport()">Generate Detailed Report</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+// Function to sell a product
+function sell(product) {
+    const sellInput = document.getElementById(`${product}Sell`);
+    const sellQuantity = parseInt(sellInput.value);
+    let stockData = JSON.parse(localStorage.getItem('stockData')) || {};
+    const currentStock = stockData[product]?.remaining || 0;
+    const price = stockData[product]?.price || 0;
+
+    if (sellQuantity > 0 && sellQuantity <= currentStock) {
+        const newStock = currentStock - sellQuantity;
+        stockData[product].remaining = newStock;
+
+        // Update total sold
+        stockData[product].totalSold = (stockData[product].totalSold || 0) + sellQuantity;
+
+        // Save updated data to localStorage
+        localStorage.setItem('stockData', JSON.stringify(stockData));
+
+        // Update UI
+        document.getElementById(`${product}Remaining`).innerText = newStock;
+        document.getElementById(`${product}TotalSold`).innerText = stockData[product].totalSold;
+
+        // Calculate daily revenue
+        const dailyRevenue = sellQuantity * price;
+        document.getElementById('dailyRevenue').innerText = `₦${parseInt(document.getElementById('dailyRevenue').innerText.replace('₦', '')) + dailyRevenue}`;
+
+        alert(`${sellQuantity} ${product.charAt(0).toUpperCase() + product.slice(1)} sold!`);
+        sellInput.value = 0; // Reset input
+    } else {
+        alert('Please enter a valid quantity to sell.');
+    }
+}
+
+// Function to generate a PDF sales report
+function generatePDFReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const stockData = JSON.parse(localStorage.getItem('stockData')) || {};
+
+    let reportContent = 'Sales Report\n\n';
+    reportContent += 'Product | Remaining | Total Sold | Price | Revenue\n';
+    reportContent += '---------------------------------------------------------------\n';
+
+    let totalRevenue = 0;
+
+    for (let product in stockData) {
+        const { remaining, totalSold, price } = stockData[product];
+        const revenue = totalSold * price;
+        totalRevenue += revenue;
+        reportContent += `${product.charAt(0).toUpperCase() + product.slice(1)} | ${remaining} | ${totalSold} | ₦${price} | ₦${revenue}\n`;
+    }
+
+    reportContent += `\nTotal Revenue: ₦${totalRevenue}`;
+    
+    // Add content to PDF
+    doc.text(reportContent, 10, 10);
+    doc.save('sales_report.pdf'); // Download the PDF
+}
+
+// Load stock data from localStorage when the page is loaded
+window.onload = function() {
+    const stockData = JSON.parse(localStorage.getItem('stockData')) || {};
+    for (let product in stockData) {
+        const { remaining, price, totalSold } = stockData[product];
+        document.getElementById(`${product}Remaining`).innerText = remaining;
+        document.getElementById(`${product}Price`).innerText = `₦${price}`;
+        document.getElementById(`${product}TotalSold`).innerText = totalSold;
+    }
+};
+</script>
+
+
+</body>
+</html>
